@@ -1,0 +1,18 @@
+---
+
+- name: Realizando configuraciones comunes
+  hosts: all
+  become: true
+
+  pre_tasks:
+    - debug:
+         msg: 'Iniciando las configuraciones'
+     
+  roles:
+    - role_01
+     
+     
+  post_tasks: 
+    - debug: 
+         msg: 'Servicios configurados' 
+

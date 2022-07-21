@@ -1,0 +1,57 @@
+---
+
+#Instalando Updates
+  - name: Instalando updates
+    yum: 
+      name: "*"
+      state: latest
+      update_cache: yes
+
+# Configuracion del timezone     
+ 
+  - name: Configuracion timezone
+    timezone:
+      name: Europe/Madrid
+
+# Instalando e configurando chrony
+
+  - name: Instalando servicio chrony
+    yum:
+      name: chrony
+      state: present
+  - name: Habilitar chrony
+    systemd:
+      name: chronyd
+      state: started
+      enabled: yes
+      masked: no
+
+# Instalar y configurar Firewall
+
+  - name: Instalando firewall
+    yum:
+      name: firewalld
+      state: present
+  
+  - name: Habilitando firewall
+    firewalld:
+      state: enabled
+
+
+  - name: Deshabilitando SELinux
+    selinux:
+      state: disabled
+    notify: Reiniciar servidor     
+
+
+
+           
+
+       
+
+
+
+      
+
+
+

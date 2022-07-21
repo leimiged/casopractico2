@@ -1,0 +1,55 @@
+---
+# creando y configurando servidor NFS
+
+- name: Etapa servidor NFS
+  hosts: 'nfslab'
+  become: true
+  tasks:
+      
+   - name: Instalando rpm's necesarios
+     yum: 
+       name: nfs-utils
+       state: present
+   - name: Creando directorio NFS
+     file:
+       path: /mnt/nfs
+       state: directory
+       owner: nobody
+       mode: 0777
+   - name: Agregando /etc/export a los directorios
+     lineinfile:
+       dest: /etc/exports
+       line: "/mnt/nfs (rw,sync,no_subtree_check)"
+       state: present
+
+   - name: Habilitar servicio NFS
+     systemd:
+       name: nfs-server
+       state: started
+       enabled: yes
+       masked: no    
+       
+   - name: Configuracion del fichero export
+     command: exportfs -s
+
+   - name: Habilitando servicios rpc-bind
+     firewalld:
+       service: rpc-bind
+       permanent: true
+       state: enabled
+       
+   - name: Habilitando servicios mountd
+     firewalld:
+       service: mountd 
+       permanent: true
+       state: enabled
+
+   - name: Reiniciando firewall
+     systemd:
+       name: firewalld 
+       state: restarted
+           
+
+
+
+

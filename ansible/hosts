@@ -1,0 +1,11 @@
+[all:vars]
+ansible_user=ansible
+
+[masterpc]
+master ansible_connection=local
+
+[workerpc]
+workerlab ansible_host=192.168.1.31
+
+[nfspc]
+nfslab ansible_host=192.168.1.30

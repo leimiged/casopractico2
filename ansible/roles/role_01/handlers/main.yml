@@ -1,0 +1,8 @@
+---
+# handlers file for role_01 
+
+- name: Reiniciar servidor
+  reboot:
+    pre_reboot_delay: 5
+    msg: 'Reinicio iniciado por Ansible'
+
